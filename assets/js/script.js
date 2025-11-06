@@ -21,6 +21,8 @@ document.querySelector('.busca').addEventListener('submit', async (event) => {
                 windSpeed: json.wind.speed,
                 descri: json.weather[0].description,
             });
+
+            saveToHistory(json.name, json.sys.country);
         } else {
             clearInfo();
             showWarning('Não encontramos essa localização');
@@ -67,6 +69,7 @@ async function carregarLocalizacaoAtual() {
                 const json = await results.json();
 
                 if (json.cod === 200) {
+                    saveToHistory(json.name, json.sys.country);
                     showInfo({
                         name: json.name,
                         country: json.sys.country,
@@ -83,7 +86,6 @@ async function carregarLocalizacaoAtual() {
                 console.error(error);
             }
         }, (error) => {
-            // Caso o usuário negue a permissão
             showWarning('Não foi possível acessar sua localização. Mostrando Ijuí por padrão.');
             ijuí();
         });
@@ -113,16 +115,62 @@ async function ijuí() {
             windSpeed: json.wind.speed,
             descri: json.weather[0].description,
         });
+        saveToHistory(json.name, json.sys.country);
     } else {
         clearInfo();
         showWarning('Não encontramos essa localização');
     }
 }
 
+// 💾 Salva cidade no histórico (mantendo as mais recentes)
+function saveToHistory(city, country) {
+    let history = JSON.parse(localStorage.getItem('history')) || [];
+
+    // Cria objeto cidade
+    const cityObj = { name: city, country: country || '' };
+
+    // Evita duplicatas (mesma cidade e país)
+    history = history.filter(item => !(item.name === city && item.country === country));
+
+    // Adiciona nova no topo
+    history.unshift(cityObj);
+
+    // Limita para 10 itens
+    if (history.length > 10) history = history.slice(0, 10);
+
+    localStorage.setItem('history', JSON.stringify(history));
+}
+
+// 🔍 Caso o index seja aberto com ?cidade=...
+(async function () {
+    const params = new URLSearchParams(window.location.search);
+    const cidadeParam = params.get('cidade');
+    const paisParam = params.get('pais');
+
+    if (cidadeParam) {
+        clearInfo();
+        showWarning('Carregando...');
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURI(cidadeParam)}${paisParam ? ',' + paisParam : ''}&appid=ef60a79c9c3ca99f2edfad01fd9badb3&units=metric&lang=pt_br`;
+        const results = await fetch(url);
+        const json = await results.json();
+        if (json.cod === 200) {
+            showInfo({
+                name: json.name,
+                country: json.sys.country,
+                temp: json.main.temp,
+                tempIcon: json.weather[0].icon,
+                windSpeed: json.wind.speed,
+                descri: json.weather[0].description,
+            });
+        } else {
+            showWarning('Não encontramos essa localização');
+        }
+    } else {
+        carregarLocalizacaoAtual();
+    }
+})();
+
 document.getElementById("btnSemana").addEventListener("click", () => {
-  const cidade = document.getElementById("searchInput").value || "Ijuí";
+  const cidade = document.querySelector(".titulo").textContent.split(",")[0] || "Ijuí";
   window.location.href = `semana.html?cidade=${encodeURIComponent(cidade)}`;
 });
-
-// 🚀 Ao abrir o site, tenta pegar o clima da localização atual
-carregarLocalizacaoAtual();

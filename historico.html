@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Histórico de Pesquisas - Climato</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <style>
+    
+    
+    
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Histórico de Cidades</h1>
+    <ul id="listaHistorico"></ul>
+
+    <div class="buttons">
+      <button id="limparHistorico">Limpar Histórico</button>
+      <button onclick="window.location.href='index.html'">Voltar</button>
+    </div>
+  </div>
+
+  <script>
+    const lista = document.getElementById('listaHistorico');
+    const btnLimpar = document.getElementById('limparHistorico');
+
+    function renderHistory() {
+      const history = JSON.parse(localStorage.getItem('history')) || [];
+      lista.innerHTML = '';
+
+      if (history.length === 0) {
+        const li = document.createElement('li');
+        li.textContent = 'Nenhuma cidade pesquisada ainda.';
+        lista.appendChild(li);
+        return;
+      }
+
+      history.forEach(item => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+          <span><strong>${item.name}</strong> <span class="country">${item.country || ''}</span></span>
+          <span>➡️</span>
+        `;
+        li.addEventListener('click', () => {
+          const cidade = encodeURIComponent(item.name);
+          const pais = encodeURIComponent(item.country || '');
+          window.location.href = `index.html?cidade=${cidade}&pais=${pais}`;
+        });
+        lista.appendChild(li);
+      });
+    }
+
+    btnLimpar.addEventListener('click', () => {
+      localStorage.removeItem('history');
+      renderHistory();
+    });
+
+    renderHistory();
+  </script>
+</body>
+</html>

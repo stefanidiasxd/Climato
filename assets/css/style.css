@@ -281,4 +281,30 @@ footer a{
 
 
 
-
+h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    li {
+      background: #ffddf2;
+      border-radius: 8px;
+      padding: 10px 15px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    li:hover {
+      background: #6c47a8;
+    }
+    .country {
+      font-size: 0.9em;
+      color: #555;
+    }
