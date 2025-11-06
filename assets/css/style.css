@@ -3,7 +3,13 @@
     padding: 0;
     box-sizing: border-box;
 }
-
+button{
+     background-color: #e68ec4;
+     color: #ffffff;   
+     border-radius: 15px;
+    padding: 15px;
+     border: 1px solid #ffffff;
+}
 body {
        display: flex;
     min-height: 100vh;
@@ -11,9 +17,9 @@ body {
     align-items: center;
     flex-direction: column;
     background-image: url('../images/cat.jpg'); /* coloque o caminho certo da imagem */
+    background-repeat: repeat-y;
     background-size: cover;       /* faz a imagem cobrir toda a tela */
     background-position: center;  /* centraliza a imagem */
-    background-repeat: no-repeat; /* evita repetição */
     font-family: Arial, Helvetica, sans-serif;
 }
 .container{
@@ -21,11 +27,11 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    
-    background: linear-gradient( 135deg, #c984ae,#6d2e97) ;
-    height: 450px;
-    width: 400px;
+    background: linear-gradient( 135deg, #c984ae,#6d2e9749) ;
+    height: auto;
+    width: auto;
     border-radius: 15px;
+    padding-bottom: 15px;
 }
 h1 {
     color: #FFF;
@@ -33,7 +39,8 @@ h1 {
 }
 
 .busca {
-   
+   padding-left: 10px;
+   padding-right: 10px;
     padding-top: 35px;
     display: flex;
     width: 300px;
@@ -207,8 +214,10 @@ footer a{
 @media (max-width: 400px){
 
     .container{
-        height: 400px;
-        width: 350px;
+        height: auto;
+        width: auto;
+      padding: 30px;
+
     }
      .busca{
         width: 280px;
@@ -231,3 +240,45 @@ footer a{
      }
 
 }
+
+/* kaue */
+
+.semana {
+  display:flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.dia-card {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 15px;
+  width: 130px;
+  text-align: center;
+  color: #fff;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 10px #0003;
+}
+
+.dia-card img {
+  width: 70px;
+  height: 70px;
+}
+
+.dia-card h3 {
+  margin-bottom: 8px;
+  font-size: 1rem;
+  text-transform: capitalize;
+}
+
+.cidade{
+    color: #ffffff;
+    font-size: xx-large;
+}
+/*cuco*/
+
+
+
+
