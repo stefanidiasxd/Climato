@@ -98,4 +98,23 @@ function clearInfo() {
     }
 }
 
+
+/**
+ * Salva a cidade na lista de favoritos do localStorage.
+ */
+function salvarFavorito(cidade) {
+    let favoritos = JSON.parse(localStorage.getItem('climaFavoritos')) || [];
+
+    // Verifica se a cidade já NÃO está na lista
+    if (!favoritos.includes(cidade)) {
+        favoritos.push(cidade);
+        localStorage.setItem('climaFavoritos', JSON.stringify(favoritos));
+        alert(cidade + ' adicionada aos favoritos!');
+    } else {
+        alert(cidade + ' já está nos favoritos.');
+    }
+}
+
 ijuí();
+
+
